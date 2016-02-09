@@ -35,13 +35,16 @@ import java.util.ArrayList;
  */
 public class CellBoard {
 
+	private int m_x, m_y;
 	private List<ArrayList<Cell>> m_board;
 	
 	/**
 	 * no arg constructor, default to 100x100 board
 	 */
 	public CellBoard(){
-		initialiseBoard(100,100);
+		m_x=100;
+		m_y=100;
+		initialiseBoard();
 	}
 	
 	/**
@@ -51,7 +54,9 @@ public class CellBoard {
 	 * @param y
 	 */
 	public CellBoard(int x, int y){	
-		initialiseBoard(x,y);
+		m_x=x;
+		m_y=y;
+		initialiseBoard();
 	}
 	
 	/**
@@ -60,11 +65,11 @@ public class CellBoard {
 	 * @param x
 	 * @param y
 	 */
-	private void initialiseBoard(int x, int y){
-		m_board = new ArrayList<ArrayList<Cell>>(x);
-		for(int ii=0;ii<x;++ii){
+	private void initialiseBoard(){
+		m_board = new ArrayList<ArrayList<Cell>>(m_x);
+		for(int ii=0;ii<m_x;++ii){
 			m_board.add(new ArrayList<Cell>());
-			for(int jj=0;jj<y;++jj){
+			for(int jj=0;jj<m_y;++jj){
 				m_board.get(ii).add(new Cell());
 			}
 		}
