@@ -25,39 +25,82 @@
  */
 package conway;
 
+import java.util.List;
+import java.util.ArrayList;
+
+
 /**
+ * @author chris
  *
- * @author Chris Hengler
  */
-public class Cell{
-  
-  /**
-   * whether or not the cell is alive
-   */
-  private boolean m_alive;
-  
-  /**
-  * no arg constructor, default cells to not alive
-  */
-  Cell(){
-    m_alive=false;
-  }
-  
-  /**
-   * constructor with param for alive/not alive
-   * 
-   * @param alive 
-   */
-  Cell(boolean alive){
-    m_alive=alive;
-  }
-  
-  void setAlive(boolean alive){
-    m_alive = alive;
-  }
-  
-  boolean isAlive(){
-    return m_alive;
-  }
-  
+public class CellBoard {
+
+	private List<ArrayList<Cell>> m_board;
+	
+	/**
+	 * no arg constructor, default to 100x100 board
+	 */
+	public CellBoard(){
+		initialiseBoard(100,100);
+	}
+	
+	/**
+	 * constructor specifying x, y size of board
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public CellBoard(int x, int y){	
+		initialiseBoard(x,y);
+	}
+	
+	/**
+	 * initialise the board with x, y specified
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	private void initialiseBoard(int x, int y){
+		m_board = new ArrayList<ArrayList<Cell>>(x);
+		for(int ii=0;ii<x;++ii){
+			m_board.add(new ArrayList<Cell>());
+			for(int jj=0;jj<y;++jj){
+				m_board.get(ii).add(new Cell());
+			}
+		}
+	}
+	
+	/**
+	 * return cell at x,y of board
+	 * 
+	 * @param x
+	 * @param y
+	 * @return cell x,y
+	 */
+	public Cell getCell(int x, int y){
+		return m_board.get(x).get(y);
+	}
+	
+	/**
+	 * set Cell x,y alive status
+	 * 
+	 * @param x
+	 * @param y
+	 * @param alive
+	 */
+	public void setAlive(int x, int y, boolean alive){
+		getCell(x,y).setAlive(alive);
+	}
+	
+	public int getLiveNeighbours(int x,int y){
+		int count=0;
+		for(int ii=-1;ii<=1;++ii){
+			for(int jj=-1;jj<=1;++jj){
+				if(ii==0 && jj==0) continue;
+				if(getCell(x+ii,y+jj).isAlive()) count++;
+			}
+		}
+		return count;
+	}
+	
 }
