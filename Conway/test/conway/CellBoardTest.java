@@ -52,9 +52,9 @@ public class CellBoardTest {
 	@Test
 	public void testSetAlive(){
 		CellBoard instance = new CellBoard();
-		assertEquals(instance.getCell(0,0).isAlive(),false);
+		assertEquals(false,instance.getCell(0,0).isAlive());
 		instance.setAlive(0,0,true);
-		assertEquals(instance.getCell(0,0).isAlive(),true);
+		assertEquals(true,instance.getCell(0,0).isAlive());
 	}
 	
 	/**
@@ -67,8 +67,21 @@ public class CellBoardTest {
 		instance.setAlive(0,2,true);
 		instance.setAlive(2,0,true);
 		instance.setAlive(0,0,true);
-		assertEquals(instance.getLiveNeighbours(1,1),3);
-		assertEquals(instance.getLiveNeighbours(2,1),1);
+		assertEquals(3,instance.getLiveNeighbours(1,1));
+		assertEquals(1,instance.getLiveNeighbours(2,1));
 	}
 	
+	/**
+	 * test wrap-around of out-of-bounds cell locations
+	 */
+	@Test
+	public void testGetCell(){
+		CellBoard instance = new CellBoard(50,50);
+		instance.setAlive(0,0,true);
+		assertEquals(instance.getCell(50,50).isAlive(),true);
+		instance.setAlive(0,49,true);
+		instance.setAlive(0,1,true);
+		assertEquals(2,instance.getLiveNeighbours(1,49));
+		assertEquals(3,instance.getLiveNeighbours(49,0));
+	}
 }

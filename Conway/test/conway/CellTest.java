@@ -45,9 +45,9 @@ public class CellTest{
     System.out.println("setAlive");
     Cell instance = new Cell();
     instance.setAlive(true);
-    assertEquals(instance.isAlive(),true);
+    assertEquals(true,instance.isAlive());
     instance.setAlive(false);
-    assertEquals(instance.isAlive(),false);
+    assertEquals(false,instance.isAlive());
   }
 
 }

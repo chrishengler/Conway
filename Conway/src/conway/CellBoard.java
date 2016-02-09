@@ -78,11 +78,28 @@ public class CellBoard {
 	/**
 	 * return cell at x,y of board
 	 * 
+	 * return cell at x,y of board, cells outside board boundary wrap
+	 * around both left-to-right and top-to-bottom (torus topology)
+	 * 
 	 * @param x
 	 * @param y
 	 * @return cell x,y
 	 */
 	public Cell getCell(int x, int y){
+		if(x<0){
+			int offset=(-1*x)%m_x;
+			x=m_x-offset;
+		}
+		if(x>=m_x){ 
+			x=x%m_x;
+		}
+		if(y<0){
+			int offset=(-1*y)%m_y;
+			y=m_y-offset;
+		}
+		if(y>=m_y){
+			y=y%m_y;
+		}
 		return m_board.get(x).get(y);
 	}
 	
