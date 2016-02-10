@@ -25,47 +25,71 @@
  */
 package io.github.chrishengler.conway;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
-import org.junit.Before;
-import org.junit.Test;
+import io.github.chrishengler.conway.CellBoard;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Chris Hengler
- */
-public class ConwayCanvasTest{
-  
-  private Game g;
-  private ConwayCanvas instance;
-  
-  @Before
-  public void setUp(){
-    g = new Game(100,100);
-    g.setAlive(1,1,true);
-    instance = new ConwayCanvas(g);
-    instance.setVisible(true);
-  }
+import org.junit.Before;
+import org.junit.Test;
 
-  /**
-   * Test of getPreferredSize method, of class ConwayCanvas.
-   */
-  @Test
-  public void testGetPreferredSize(){
-    System.out.println("getPreferredSize");
-    Dimension expResult = new Dimension(600,600);
-    Dimension result = instance.getPreferredSize();
-    assertEquals(expResult, result);
-  }
-  
-  @Test
-  public void testDisplay(){
-    JFrame f = new JFrame("ConwayCanvas test");
-    f.add(instance);
-    f.pack();
-    f.setVisible(true);
-    System.out.println("displaying canvas");
-  }
-  
+/**
+ * @author chris
+ *
+ */
+public class CellBoardTest {
+
+	private CellBoard instance;
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception{
+		instance = new CellBoard(50,50);
+	}
+	
+	/**
+	 * test setting up board
+	 */
+	@Test
+	public void testCellBoard(){
+		instance.getCell(0,0);
+		instance.getCell(49,49);
+	}
+	
+	/**
+	 * test getting cells from board
+	 * 
+	 */
+	@Test
+	public void testSetAlive(){
+		assertEquals(false,instance.getCell(0,0).isAlive());
+		instance.setAlive(0,0,true);
+		assertEquals(true,instance.getCell(0,0).isAlive());
+	}
+	
+	/**
+	 * test count of live neighbours
+	 */
+	@Test
+	public void testGetLiveNeighbours(){
+		assertEquals(instance.getLiveNeighbours(1,1),0);
+		instance.setAlive(0,2,true);
+		instance.setAlive(2,0,true);
+		instance.setAlive(0,0,true);
+		assertEquals(3,instance.getLiveNeighbours(1,1));
+		assertEquals(1,instance.getLiveNeighbours(2,1));
+	}
+	
+	/**
+	 * test wrap-around of out-of-bounds cell locations
+	 */
+	@Test
+	public void testGetCell(){
+		instance.setAlive(0,0,true);
+		assertEquals(instance.getCell(50,50).isAlive(),true);
+		instance.setAlive(0,49,true);
+		instance.setAlive(0,1,true);
+		assertEquals(2,instance.getLiveNeighbours(1,49));
+		assertEquals(3,instance.getLiveNeighbours(49,0));
+	}
 }

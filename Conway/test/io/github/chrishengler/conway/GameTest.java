@@ -25,47 +25,56 @@
  */
 package io.github.chrishengler.conway;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
-import org.junit.Before;
-import org.junit.Test;
+import io.github.chrishengler.conway.Game;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Chris Hengler
- */
-public class ConwayCanvasTest{
-  
-  private Game g;
-  private ConwayCanvas instance;
-  
-  @Before
-  public void setUp(){
-    g = new Game(100,100);
-    g.setAlive(1,1,true);
-    instance = new ConwayCanvas(g);
-    instance.setVisible(true);
-  }
+import org.junit.Before;
+import org.junit.Test;
 
-  /**
-   * Test of getPreferredSize method, of class ConwayCanvas.
-   */
-  @Test
-  public void testGetPreferredSize(){
-    System.out.println("getPreferredSize");
-    Dimension expResult = new Dimension(600,600);
-    Dimension result = instance.getPreferredSize();
-    assertEquals(expResult, result);
-  }
-  
-  @Test
-  public void testDisplay(){
-    JFrame f = new JFrame("ConwayCanvas test");
-    f.add(instance);
-    f.pack();
-    f.setVisible(true);
-    System.out.println("displaying canvas");
-  }
-  
+/**
+ * @author chris
+ *
+ */
+public class GameTest{
+
+	private Game instance;
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception{
+		instance = new Game(50,50);
+		instance.setAlive(0,0,true);
+		instance.setAlive(1,0,true);
+		instance.setAlive(2,0,true);
+	}
+
+	/**
+	 * test setting cells alive via Game object
+	 */
+	@Test
+	public void testSetAlive(){
+		assertEquals(false,instance.isAlive(10,10));
+		instance.setAlive(10,10,true);
+		assertEquals(true,instance.isAlive(10,10));
+	}
+	
+	/**
+	 * test generating next step
+	 */
+	@Test
+	public void testStep(){
+		instance.nextStep();
+		//test new cell birth
+		assertEquals(true,instance.isAlive(1,1));
+		//test cell staying alive
+		assertEquals(true,instance.isAlive(1,0));
+		//test loneliness
+		assertEquals(false,instance.isAlive(0,0));
+		assertEquals(false,instance.isAlive(2,0));
+		//test wrap-around
+		assertEquals(true,instance.isAlive(1,49));
+	}
+
 }

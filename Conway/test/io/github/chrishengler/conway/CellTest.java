@@ -25,9 +25,7 @@
  */
 package io.github.chrishengler.conway;
 
-import javax.swing.JFrame;
-import java.awt.Dimension;
-import org.junit.Before;
+import io.github.chrishengler.conway.Cell;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -35,37 +33,22 @@ import static org.junit.Assert.*;
  *
  * @author Chris Hengler
  */
-public class ConwayCanvasTest{
+public class CellTest{
   
-  private Game g;
-  private ConwayCanvas instance;
-  
-  @Before
-  public void setUp(){
-    g = new Game(100,100);
-    g.setAlive(1,1,true);
-    instance = new ConwayCanvas(g);
-    instance.setVisible(true);
+  public CellTest(){
   }
 
   /**
-   * Test of getPreferredSize method, of class ConwayCanvas.
+   * Test of setAlive method, of class Cell.
    */
   @Test
-  public void testGetPreferredSize(){
-    System.out.println("getPreferredSize");
-    Dimension expResult = new Dimension(600,600);
-    Dimension result = instance.getPreferredSize();
-    assertEquals(expResult, result);
+  public void testSetAlive(){
+    System.out.println("setAlive");
+    Cell instance = new Cell();
+    instance.setAlive(true);
+    assertEquals(true,instance.isAlive());
+    instance.setAlive(false);
+    assertEquals(false,instance.isAlive());
   }
-  
-  @Test
-  public void testDisplay(){
-    JFrame f = new JFrame("ConwayCanvas test");
-    f.add(instance);
-    f.pack();
-    f.setVisible(true);
-    System.out.println("displaying canvas");
-  }
-  
+
 }
