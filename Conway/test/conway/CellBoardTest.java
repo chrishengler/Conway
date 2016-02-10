@@ -27,6 +27,7 @@ package conway;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -35,14 +36,23 @@ import org.junit.Test;
  */
 public class CellBoardTest {
 
+	private CellBoard instance;
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception{
+		instance = new CellBoard(50,50);
+	}
+	
 	/**
 	 * test setting up board
 	 */
 	@Test
 	public void testCellBoard(){
-		CellBoard instance = new CellBoard();
 		instance.getCell(0,0);
-		instance.getCell(99,99);
+		instance.getCell(49,49);
 	}
 	
 	/**
@@ -51,7 +61,6 @@ public class CellBoardTest {
 	 */
 	@Test
 	public void testSetAlive(){
-		CellBoard instance = new CellBoard();
 		assertEquals(false,instance.getCell(0,0).isAlive());
 		instance.setAlive(0,0,true);
 		assertEquals(true,instance.getCell(0,0).isAlive());
@@ -62,7 +71,6 @@ public class CellBoardTest {
 	 */
 	@Test
 	public void testGetLiveNeighbours(){
-		CellBoard instance = new CellBoard();
 		assertEquals(instance.getLiveNeighbours(1,1),0);
 		instance.setAlive(0,2,true);
 		instance.setAlive(2,0,true);
@@ -76,7 +84,6 @@ public class CellBoardTest {
 	 */
 	@Test
 	public void testGetCell(){
-		CellBoard instance = new CellBoard(50,50);
 		instance.setAlive(0,0,true);
 		assertEquals(instance.getCell(50,50).isAlive(),true);
 		instance.setAlive(0,49,true);

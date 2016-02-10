@@ -36,11 +36,17 @@ import org.junit.Test;
  */
 public class GameTest{
 
+	private Game instance;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception{
+		instance = new Game(50,50);
+		instance.setAlive(0,0,true);
+		instance.setAlive(1,0,true);
+		instance.setAlive(2,0,true);
 	}
 
 	/**
@@ -48,10 +54,9 @@ public class GameTest{
 	 */
 	@Test
 	public void testSetAlive(){
-		Game instance = new Game();
-		assertEquals(false,instance.isAlive(0,0));
-		instance.setAlive(0,0,true);
-		assertEquals(true,instance.isAlive(0,0));
+		assertEquals(false,instance.isAlive(10,10));
+		instance.setAlive(10,10,true);
+		assertEquals(true,instance.isAlive(10,10));
 	}
 	
 	/**
@@ -59,10 +64,6 @@ public class GameTest{
 	 */
 	@Test
 	public void testStep(){
-		Game instance = new Game(50,50);
-		instance.setAlive(0,0,true);
-		instance.setAlive(1,0,true);
-		instance.setAlive(2,0,true);
 		instance.nextStep();
 		//test new cell birth
 		assertEquals(true,instance.isAlive(1,1));
