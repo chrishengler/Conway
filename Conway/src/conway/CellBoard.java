@@ -60,6 +60,24 @@ public class CellBoard {
 	}
 	
 	/**
+	 * get x-size of board
+	 * 
+	 * @return x size of board
+	 */
+	public int getX(){
+		return m_x;
+	}
+	
+	/**
+	 * get y-size of board
+	 * 
+	 * @return y size of board
+	 */
+	public int getY(){
+		return m_y;
+	}
+	
+	/**
 	 * initialise the board with x, y specified
 	 * 
 	 * @param x
@@ -112,6 +130,10 @@ public class CellBoard {
 	 */
 	public void setAlive(int x, int y, boolean alive){
 		getCell(x,y).setAlive(alive);
+	}
+	
+	public boolean isAlive(int x, int y){
+		return getCell(x,y).isAlive();
 	}
 	
 	public int getLiveNeighbours(int x,int y){
