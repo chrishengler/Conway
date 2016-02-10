@@ -23,50 +23,71 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package conway;
+package io.github.chrishengler.conway;
 
 /**
- *
  * @author Chris Hengler
+ *
  */
-public class Cell{
-  /**
-   * whether or not the cell is alive
-   */
-  private boolean m_alive;
-  
-  /**
-   * constructor w/o args, default to not alive
-   */
-  public Cell(){
-    m_alive = false;
-  }
-  
-  /**
-   * constructor with boolean to set cell alive/not alive
-   * 
-   * @param alive cell is alive
-   */
-  public Cell(boolean alive){
-    m_alive = alive;
-  }
-  
-  /**
-   * set cell alive or not
-   * 
-   * @param alive 
-   */
-  public void setAlive(boolean alive){
-    m_alive = alive;
-  }
-  
-  /**
-   * check whether or not cell is alive
-   * 
-   * @return true if cell is alive
-   */
-  public boolean isAlive(){
-    return m_alive;
-  }
-  
+public class Game{
+
+	private int m_x, m_y;
+	private CellBoard m_board;
+	
+	public Game(){
+		m_x = 100;
+		m_y = 100;
+		m_board = new CellBoard();
+	}
+	
+	public Game(int x, int y){
+		m_x = x;
+		m_y = y;
+		m_board = new CellBoard(x,y);
+	}
+	
+	private CellBoard getNextBoard(){
+		CellBoard newboard = new CellBoard(m_x,m_y);
+		for(int ii=0;ii<m_x;++ii){
+			for(int jj=0;jj<m_y;++jj){
+				int n = m_board.getLiveNeighbours(ii,jj);
+				if(m_board.isAlive(ii,jj)){
+					if(n==2 || n==3){
+						newboard.setAlive(ii,jj,true);
+					}
+				}
+				else if(n==3){
+					newboard.setAlive(ii,jj,true);
+				}
+			}
+		}
+		//not implemented yet
+		return newboard;
+	}
+
+	public void nextStep(){
+		//not implemented yet
+		m_board = getNextBoard();
+	}
+	
+	public CellBoard getBoard(){
+		return m_board;
+	}
+	
+	public void setAlive(int x, int y, boolean alive){
+		m_board.setAlive(x,y,alive);
+	}
+	
+	public boolean isAlive(int x, int y){
+		return m_board.isAlive(x,y);
+	}
+	
+	public int getX(){
+		return m_x;
+	}
+	
+	public int getY(){
+		return m_y;
+	}
+	
 }

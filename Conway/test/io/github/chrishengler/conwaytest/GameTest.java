@@ -23,31 +23,58 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package conway;
+package io.github.chrishengler.conwaytest;
 
-import org.junit.Test;
+import io.github.chrishengler.conway.Game;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author Chris Hengler
- */
-public class CellTest{
-  
-  public CellTest(){
-  }
+import org.junit.Before;
+import org.junit.Test;
 
-  /**
-   * Test of setAlive method, of class Cell.
-   */
-  @Test
-  public void testSetAlive(){
-    System.out.println("setAlive");
-    Cell instance = new Cell();
-    instance.setAlive(true);
-    assertEquals(true,instance.isAlive());
-    instance.setAlive(false);
-    assertEquals(false,instance.isAlive());
-  }
+/**
+ * @author chris
+ *
+ */
+public class GameTest{
+
+	private Game instance;
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception{
+		instance = new Game(50,50);
+		instance.setAlive(0,0,true);
+		instance.setAlive(1,0,true);
+		instance.setAlive(2,0,true);
+	}
+
+	/**
+	 * test setting cells alive via Game object
+	 */
+	@Test
+	public void testSetAlive(){
+		assertEquals(false,instance.isAlive(10,10));
+		instance.setAlive(10,10,true);
+		assertEquals(true,instance.isAlive(10,10));
+	}
+	
+	/**
+	 * test generating next step
+	 */
+	@Test
+	public void testStep(){
+		instance.nextStep();
+		//test new cell birth
+		assertEquals(true,instance.isAlive(1,1));
+		//test cell staying alive
+		assertEquals(true,instance.isAlive(1,0));
+		//test loneliness
+		assertEquals(false,instance.isAlive(0,0));
+		assertEquals(false,instance.isAlive(2,0));
+		//test wrap-around
+		assertEquals(true,instance.isAlive(1,49));
+	}
 
 }

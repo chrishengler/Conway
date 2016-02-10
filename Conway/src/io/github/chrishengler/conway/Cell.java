@@ -23,19 +23,50 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package conway;
+package io.github.chrishengler.conway;
 
 /**
  *
  * @author Chris Hengler
  */
-public class Conway{
-
+public class Cell{
   /**
-   * @param args the command line arguments
+   * whether or not the cell is alive
    */
-  public static void main(String[] args){
-    // TODO code application logic here
+  private boolean m_alive;
+  
+  /**
+   * constructor w/o args, default to not alive
+   */
+  public Cell(){
+    m_alive = false;
+  }
+  
+  /**
+   * constructor with boolean to set cell alive/not alive
+   * 
+   * @param alive cell is alive
+   */
+  public Cell(boolean alive){
+    m_alive = alive;
+  }
+  
+  /**
+   * set cell alive or not
+   * 
+   * @param alive 
+   */
+  public void setAlive(boolean alive){
+    m_alive = alive;
+  }
+  
+  /**
+   * check whether or not cell is alive
+   * 
+   * @return true if cell is alive
+   */
+  public boolean isAlive(){
+    return m_alive;
   }
   
 }
