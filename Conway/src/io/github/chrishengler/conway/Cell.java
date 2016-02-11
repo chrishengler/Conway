@@ -60,6 +60,10 @@ public class Cell{
     m_alive = alive;
   }
   
+  public void toggle(){
+  	m_alive = !m_alive;
+  }
+  
   /**
    * check whether or not cell is alive
    * 

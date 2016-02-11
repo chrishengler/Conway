@@ -26,18 +26,22 @@
 package io.github.chrishengler.conway;
 
 import java.awt.Dimension;
+import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Point;
         
 /**
  *
  * @author Chris Hengler
  */
-public class ConwayCanvas extends javax.swing.JPanel{
+public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, MouseMotionListener, ComponentListener{
 
-  private float m_cellwidth, m_cellheight;
+  private int m_cellsize;
   private Game m_game;
-  
+  private Point m_lastPoint;
+
   /**
    * Creates new form ConwayCanvas
    * 
@@ -47,7 +51,10 @@ public class ConwayCanvas extends javax.swing.JPanel{
     setVisible(true);
     m_game = g;
     initComponents();
-    calcCellSize();
+  }
+  
+  public Game getGame(){
+  	return m_game;
   }
   
   @Override
@@ -56,30 +63,53 @@ public class ConwayCanvas extends javax.swing.JPanel{
   }
   
   private void calcCellSize(){
-    m_cellwidth = (float)this.getWidth()/m_game.getX();
-    m_cellheight = (float)this.getHeight()/m_game.getY();
+    int dx = this.getWidth()/m_game.getX();
+    int dy = this.getHeight()/m_game.getY();
+    boolean shrinkx = false;
+    boolean shrinky = false;
+    int validx=m_game.getX();
+    int validy=m_game.getY();
+    if(dx<3){
+    	//calculate largest number of cells that fits in current canvas with m_cellsize>=3
+    	validx=this.getWidth()/3;
+    	shrinkx=true;
+    }
+    if(dy<3){
+    	validy=this.getWidth()/3;
+    	shrinky=true;
+    }
+    m_cellsize = dx < dy ? dx : dy;
+    if( shrinkx || shrinky){
+    	m_game.resizeBoard(validx,validy);
+    }
+  }
+  
+  private void verifyGridDimensions(){
+  	calcCellSize();
+  	int nx,ny;
+  	nx=this.getWidth()/m_cellsize;
+  	ny=this.getHeight()/m_cellsize;
+  	m_game.resizeBoard(nx,ny);
   }
   
   @Override
   public void paintComponent(Graphics g){
-	calcCellSize();
     super.paintComponent(g);
-    
+  	calcCellSize();
     g.setColor(Color.black);
     for(int ii=0;ii<=m_game.getX();++ii){
-      g.drawLine((int)(ii*m_cellwidth),0,(int)(ii*m_cellwidth),(int)(m_game.getY()*m_cellheight));
+      g.drawLine((int)(ii*m_cellsize),0,(int)(ii*m_cellsize),(int)(m_game.getY()*m_cellsize));
       if(ii==m_game.getX()) continue;
     	for(int jj=0;jj<=m_game.getY();++jj){
         if(ii==0){
-    		  g.drawLine(0, (int)(jj*m_cellheight), (int)(m_game.getX()*m_cellwidth), (int)(jj*m_cellheight));
+    		  g.drawLine(0, (int)(jj*m_cellsize), (int)(m_game.getX()*m_cellsize), (int)(jj*m_cellsize));
     	  }
         if(jj==m_game.getY()) continue;
         if(m_game.isAlive(ii,jj)){
-        	g.fillRect((int)(ii*m_cellwidth),(int)(jj*m_cellheight),(int)m_cellwidth,(int)m_cellheight);
+        	g.fillRect((int)(ii*m_cellsize),(int)(jj*m_cellsize),m_cellsize+1,m_cellsize+1);
         }
       }
     }
-    
   }
 
   /**
@@ -105,6 +135,66 @@ public class ConwayCanvas extends javax.swing.JPanel{
     );
   }// </editor-fold>//GEN-END:initComponents
 
+	@Override
+	public void mouseReleased(MouseEvent e){
+		if(e.getPoint()!=m_lastPoint){
+			toggleCell(e);
+		}
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e){
+		if(e.getPoint()!=m_lastPoint){
+			toggleCell(e);
+		}
+		m_lastPoint = e.getPoint();
+	}
+  
+	@Override
+	public void mouseClicked(MouseEvent e){	
+		toggleCell(e);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e){	
+		toggleCell(e);
+		m_lastPoint = e.getPoint();
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e){ }
+
+	@Override
+	public void mouseExited(MouseEvent e){ }
+
+	@Override
+	public void mouseMoved(MouseEvent e){	}
+
+	public void toggleCell(MouseEvent e){
+		int x = (int)((e.getPoint().x)/m_cellsize);
+		int y = (int)((e.getPoint().y)/m_cellsize);
+		if(x>=0 && x<m_game.getX() && y>=0 && y<m_game.getY()){
+			m_game.toggleCell(x,y);
+		}
+		repaint();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 */
+	@Override
+	public void componentResized(ComponentEvent e){
+		verifyGridDimensions();
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent e){	}
+
+	@Override
+	public void componentShown(ComponentEvent e){	}
+
+	@Override
+	public void componentHidden(ComponentEvent e){	}
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables

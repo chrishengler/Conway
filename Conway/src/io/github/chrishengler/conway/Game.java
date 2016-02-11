@@ -34,17 +34,45 @@ public class Game{
 	private int m_x, m_y;
 	private CellBoard m_board;
 	
+	/**
+	 * no-arg constructor, default size from CellBoard
+	 */
 	public Game(){
 		m_x = 100;
 		m_y = 100;
 		m_board = new CellBoard();
 	}
 	
+	/**
+	 * constructor with x, y dimensions specified
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public Game(int x, int y){
 		m_x = x;
 		m_y = y;
 		m_board = new CellBoard(x,y);
 	}
+	
+	/**
+	 * constructor with x,y dimensions specified and board populated
+	 * @param x
+	 * @param y
+	 * @param g
+	 */
+	public Game(int x, int y, Game g){
+		m_x = x;
+		m_y = y;
+		m_board = new CellBoard(x,y,g.m_board);
+	}
+	
+	public void resizeBoard(int x, int y){
+		m_x = x;
+		m_y = y;
+		m_board = new CellBoard(x,y,m_board);
+	}
+	
 	
 	private CellBoard getNextBoard(){
 		CellBoard newboard = new CellBoard(m_x,m_y);
@@ -76,6 +104,10 @@ public class Game{
 	
 	public void setAlive(int x, int y, boolean alive){
 		m_board.setAlive(x,y,alive);
+	}
+	
+	public void toggleCell(int x, int y){
+		m_board.toggleCell(x,y);
 	}
 	
 	public boolean isAlive(int x, int y){

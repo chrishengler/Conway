@@ -60,6 +60,35 @@ public class CellBoard {
 	}
 	
 	/**
+	 * construct from existing board
+	 * 
+	 * constructor taking existing board to clone within given x,y bounds
+	 * if larger than existing board, new board will fill additional space with empty cells
+	 * if smaller, only the area within dimensions of new board is copied
+	 * if same dimensions, no effect
+	 * 
+	 * @param c clone existing board
+	 */
+	public CellBoard(int x, int y, CellBoard c){
+		m_x = x;
+		m_y = y;
+		if(c.getX()==m_x && c.getY()==m_y){
+			m_board = c.m_board;
+			return;
+		}
+		initialiseBoard();
+		for(int ii=0;ii<x;++ii){
+			for(int jj=0;jj<y;++jj){
+				if(jj>=c.getY()) break;
+				if(c.isAlive(ii,jj)){
+					setAlive(ii,jj,true);
+				}
+			}
+			if(ii>=c.getX()) break;
+		}
+	}
+	
+	/**
 	 * get x-size of board
 	 * 
 	 * @return x size of board
@@ -130,6 +159,20 @@ public class CellBoard {
 	 */
 	public void setAlive(int x, int y, boolean alive){
 		getCell(x,y).setAlive(alive);
+	}
+	
+	/**
+	 * set Cell x,y alive, assume true
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	public void setAlive(int x, int y){
+		setAlive(x,y,true);
+	}
+	
+	public void toggleCell(int x, int y){
+		getCell(x,y).toggle();
 	}
 	
 	public boolean isAlive(int x, int y){
