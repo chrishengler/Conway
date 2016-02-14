@@ -178,11 +178,11 @@ public class ConwayApp{
 
 		
 		JSlider stepTimeSlider = new JSlider(0,1000);
-		stepTimeSlider.setValue(m_steptime);
-		m_conwayCanvas.setStepTime(m_steptime);
+		stepTimeSlider.setValue(1000-m_steptime);
+		m_conwayCanvas.setStepTime(1000-m_steptime);
 		stepTimeSlider.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e){
-				m_conwayCanvas.setStepTime(stepTimeSlider.getValue());
+				m_conwayCanvas.setStepTime(1000-(stepTimeSlider.getValue()));
 			}
 		});
 		stepTimeSlider.setAlignmentX(0);
@@ -198,7 +198,6 @@ public class ConwayApp{
 					m_playing = true;
 					m_thread = new Thread(m_conwayCanvas);
 					m_thread.start();
-					System.out.println(m_thread);
 				}
 				else{
 					m_playing = false;
