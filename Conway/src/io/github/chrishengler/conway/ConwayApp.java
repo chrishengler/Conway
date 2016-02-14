@@ -42,14 +42,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Component;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.JTextPane;
-import javax.swing.text.*;
 
 /**
  * @author chris
