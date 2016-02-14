@@ -30,7 +30,6 @@ import java.awt.event.*;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Point;
         
 /**
  *
@@ -40,7 +39,7 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 
   private int m_cellsize;
   private Game m_game;
-  private Point m_lastPoint;
+  private int m_lastx, m_lasty;
 
   /**
    * Creates new form ConwayCanvas
@@ -65,31 +64,21 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
   private void calcCellSize(){
     int dx = this.getWidth()/m_game.getX();
     int dy = this.getHeight()/m_game.getY();
-    boolean shrinkx = false;
-    boolean shrinky = false;
-    int validx=m_game.getX();
-    int validy=m_game.getY();
-    if(dx<3){
-    	//calculate largest number of cells that fits in current canvas with m_cellsize>=3
-    	validx=this.getWidth()/3;
-    	shrinkx=true;
-    }
-    if(dy<3){
-    	validy=this.getWidth()/3;
-    	shrinky=true;
-    }
     m_cellsize = dx < dy ? dx : dy;
-    if( shrinkx || shrinky){
-    	m_game.resizeBoard(validx,validy);
+    if(m_cellsize<5){
+    	m_cellsize=5; //too small, remove rows/columns to get something better
     }
+   	verifyGridDimensions(); 
   }
   
   private void verifyGridDimensions(){
-  	calcCellSize();
   	int nx,ny;
-  	nx=this.getWidth()/m_cellsize;
-  	ny=this.getHeight()/m_cellsize;
-  	m_game.resizeBoard(nx,ny);
+  	nx=(this.getWidth()-1)/m_cellsize; //-1 as extra space is needed for border line
+  	ny=(this.getHeight()-1)/m_cellsize;
+  	if(nx!=m_game.getX() || ny!=m_game.getY()){
+  		m_game.resizeBoard(nx,ny);
+  	}
+  	repaint();
   }
   
   @Override
@@ -137,28 +126,25 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 
 	@Override
 	public void mouseReleased(MouseEvent e){
-		if(e.getPoint()!=m_lastPoint){
-			toggleCell(e);
-		}
+
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent e){
-		if(e.getPoint()!=m_lastPoint){
+		if(!isLastCell(e)){
 			toggleCell(e);
+			setLastCell(e);
 		}
-		m_lastPoint = e.getPoint();
 	}
   
 	@Override
 	public void mouseClicked(MouseEvent e){	
-		toggleCell(e);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e){	
 		toggleCell(e);
-		m_lastPoint = e.getPoint();
+		setLastCell(e);
 	}
 
 	@Override
@@ -170,7 +156,7 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 	@Override
 	public void mouseMoved(MouseEvent e){	}
 
-	public void toggleCell(MouseEvent e){
+	private void toggleCell(MouseEvent e){
 		int x = (int)((e.getPoint().x)/m_cellsize);
 		int y = (int)((e.getPoint().y)/m_cellsize);
 		if(x>=0 && x<m_game.getX() && y>=0 && y<m_game.getY()){
@@ -178,13 +164,25 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 		}
 		repaint();
 	}
+	
+	private void setLastCell(MouseEvent e){
+		m_lastx = (int)((e.getPoint().x)/m_cellsize);
+		m_lasty = (int)((e.getPoint().y)/m_cellsize);
+	}
+	
+	private boolean isLastCell(MouseEvent e){
+		int x = (int)((e.getPoint().x)/m_cellsize);
+		int y = (int)((e.getPoint().y)/m_cellsize);
+		return (x==m_lastx && y==m_lasty);
+	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
 	 */
 	@Override
 	public void componentResized(ComponentEvent e){
-		verifyGridDimensions();
+		calcCellSize();
+		repaint();
 	}
 
 	@Override

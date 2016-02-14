@@ -35,6 +35,11 @@ import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.Component;
+import javax.swing.Box;
 
 /**
  * @author chris
@@ -43,10 +48,9 @@ import javax.swing.JPanel;
 public class ConwayApp{
 
 	private JFrame m_frame;
-	
-	private ConwayCanvas m_canv;
 	private ConwayCanvas m_conwayCanvas;
-
+	private Game m_game;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -77,37 +81,57 @@ public class ConwayApp{
 		m_frame = new JFrame();
 		m_frame.setBounds(100,100,700,650);
 		m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		m_frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JToolBar toolBar = new JToolBar();
 		m_frame.getContentPane().add(toolBar, BorderLayout.NORTH);
-		
-		JSplitPane splitPane = new JSplitPane();
-		m_frame.getContentPane().add(splitPane, BorderLayout.WEST);
-		
-		m_conwayCanvas = new ConwayCanvas(new Game());
-		m_conwayCanvas.addMouseListener(new MouseAdapter() {
+
+		m_conwayCanvas = new ConwayCanvas(m_game);
+		m_conwayCanvas.addComponentListener(new ComponentAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				m_conwayCanvas.toggleCell(e);
+			public void componentResized(ComponentEvent e) {
+				m_conwayCanvas.componentResized(e);
 			}
 		});
-		splitPane.setRightComponent(m_conwayCanvas);
+		m_conwayCanvas.addMouseMotionListener(new MouseMotionAdapter(){
+			@Override
+			public void mouseDragged(MouseEvent e){
+				m_conwayCanvas.mouseDragged(e);
+			}
+		});
+		m_conwayCanvas.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mousePressed(MouseEvent e){
+				m_conwayCanvas.mousePressed(e);
+			}
+			@Override
+			public void mouseReleased(MouseEvent e){
+				m_conwayCanvas.mouseReleased(e);
+			}
+		});
+		m_frame.getContentPane().add(m_conwayCanvas, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
-		splitPane.setLeftComponent(panel);
+		m_frame.getContentPane().add(panel, BorderLayout.WEST);
 		
 		JButton btnNextStep = new JButton("Next Step");
 		btnNextStep.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				m_conwayCanvas.getGame().nextStep();
+				m_game.nextStep();
 				m_conwayCanvas.repaint();
 			}
 		});
 		panel.add(btnNextStep);
+		
+		Component verticalStrut = Box.createVerticalStrut(14);
+		m_frame.getContentPane().add(verticalStrut, BorderLayout.SOUTH);
+		
+		Component horizontalStrut = Box.createHorizontalStrut(14);
+		m_frame.getContentPane().add(horizontalStrut, BorderLayout.EAST);
+		
 	}
+	
+	
 
-	public ConwayCanvas getConwayCanvas() {
-		return m_conwayCanvas;
-	}
 }

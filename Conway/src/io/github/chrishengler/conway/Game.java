@@ -71,6 +71,7 @@ public class Game{
 		m_x = x;
 		m_y = y;
 		m_board = new CellBoard(x,y,m_board);
+		System.out.println("resizing board:"+x+","+y);
 	}
 	
 	
