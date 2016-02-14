@@ -77,4 +77,5 @@ public class GameTest{
 		assertEquals(true,instance.isAlive(1,49));
 	}
 
+
 }

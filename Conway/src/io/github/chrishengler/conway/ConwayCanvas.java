@@ -35,11 +35,13 @@ import java.awt.Component;
  *
  * @author Chris Hengler
  */
-public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, MouseMotionListener, ComponentListener{
+public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, MouseMotionListener, ComponentListener, Runnable{
 
   private int m_cellsize;
   private Game m_game;
   private int m_lastx, m_lasty;
+	public boolean m_stop;
+	private int m_steptime;
 
   /**
    * Creates new form ConwayCanvas
@@ -196,4 +198,42 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
   // End of variables declaration//GEN-END:variables
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
+	@Override
+	public void run(){
+		m_stop = false;
+		try{
+			while(!m_stop){
+				m_game.nextStep();
+				repaint();
+				Thread.sleep(m_steptime);
+				if(Thread.interrupted()){
+					m_stop = true;
+					throw new InterruptedException();
+				}
+			};
+		}
+		catch(InterruptedException e){ 
+			return;
+		}
+		catch(Exception e){
+			System.out.println(e.getMessage());
+			throw e;
+		}
+		
+	}
+	
+	/**
+	 * set time between steps in ms
+	 * 
+	 * @param time delay in ms beween iterations
+	 */
+	public void setStepTime(int time){
+		m_steptime = time;
+	}
+	
 }

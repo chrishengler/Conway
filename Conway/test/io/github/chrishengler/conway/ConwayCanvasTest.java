@@ -39,6 +39,7 @@ public class ConwayCanvasTest{
   
   private Game g;
   private ConwayCanvas instance;
+  private JFrame f;
   
   @Before
   public void setUp(){
@@ -46,6 +47,9 @@ public class ConwayCanvasTest{
     g.setAlive(1,1,true);
     instance = new ConwayCanvas(g);
     instance.setVisible(true);
+    f = new JFrame("ConwayCanvas test");
+    f.add(instance);
+    f.pack();
   }
 
   /**

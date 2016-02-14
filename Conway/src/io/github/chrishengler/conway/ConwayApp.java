@@ -47,6 +47,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JToggleButton;
 
 /**
  * @author chris
@@ -57,7 +58,11 @@ public class ConwayApp{
 	private JFrame m_frame;
 	private ConwayCanvas m_conwayCanvas;
 	private Game m_game;
+	private boolean m_playing;
+	private Thread m_thread;
 	private double m_fillFrac;
+	private int m_steptime;
+
 	
 	/**
 	 * Launch the application.
@@ -69,6 +74,7 @@ public class ConwayApp{
 					ConwayApp window = new ConwayApp();
 					window.m_frame.setVisible(true);
 				} catch(Exception e){
+					System.out.println(e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -86,6 +92,9 @@ public class ConwayApp{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(){
+		m_steptime = 500;
+		m_fillFrac = 0.5;
+		m_playing=false;
 		m_frame = new JFrame();
 		m_frame.setBounds(100,100,700,650);
 		m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -148,8 +157,14 @@ public class ConwayApp{
 		
 		JSlider fillFracSlider = new JSlider(0,100);
 		fillFracSlider.setAlignmentX(0);
+		fillFracSlider.setValue((int)(m_fillFrac*100));
 		fillFracBox.add(fillFracSlider);
 		fillFracSlider.setPreferredSize(controlSize);
+		fillFracSlider.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e){
+				m_fillFrac = fillFracSlider.getValue()/100.;
+			}
+		});
 		
 		JButton btnRandomFill = new JButton("Random Fill");
 		btnRandomFill.setAlignmentX(0);
@@ -160,12 +175,40 @@ public class ConwayApp{
 				m_game.fillRandom(m_fillFrac);
 			}
 		});
+
 		
-		fillFracSlider.addChangeListener(new ChangeListener(){
+		JSlider stepTimeSlider = new JSlider(0,1000);
+		stepTimeSlider.setValue(m_steptime);
+		m_conwayCanvas.setStepTime(m_steptime);
+		stepTimeSlider.addChangeListener(new ChangeListener(){
 			public void stateChanged(ChangeEvent e){
-				m_fillFrac = fillFracSlider.getValue()/100.;
+				m_conwayCanvas.setStepTime(stepTimeSlider.getValue());
 			}
 		});
+		stepTimeSlider.setAlignmentX(0);
+		fillFracBox.add(stepTimeSlider);
+		stepTimeSlider.setPreferredSize(controlSize);
+		
+		JToggleButton tglbtnStartstop = new JToggleButton("Start/Stop");
+		tglbtnStartstop.setSelected(false);
+		tglbtnStartstop.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(tglbtnStartstop.isSelected()){
+					m_playing = true;
+					m_thread = new Thread(m_conwayCanvas);
+					m_thread.start();
+					System.out.println(m_thread);
+				}
+				else{
+					m_playing = false;
+					if(m_thread!=null){
+						m_thread.interrupt();
+					}
+				}
+			}
+		});
+		fillFracBox.add(tglbtnStartstop);
 				
 		Component verticalStrut = Box.createVerticalStrut(14);
 		m_frame.getContentPane().add(verticalStrut, BorderLayout.SOUTH);
