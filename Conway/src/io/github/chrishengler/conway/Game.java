@@ -73,6 +73,9 @@ public class Game{
 		m_board = new CellBoard(x,y,m_board);
 	}
 	
+	public void fillRandom(double p){
+		m_board.fillRandom(p);
+	}
 	
 	private CellBoard getNextBoard(){
 		CellBoard newboard = new CellBoard(m_x,m_y);

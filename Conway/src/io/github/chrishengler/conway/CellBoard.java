@@ -27,6 +27,7 @@ package io.github.chrishengler.conway;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Math;
 
 
 /**
@@ -188,6 +189,14 @@ public class CellBoard {
 			}
 		}
 		return count;
+	}
+	
+	public void fillRandom(double p){
+		for(int ii=0;ii<m_x;++ii){
+			for(int jj=0;jj<m_y;++jj){
+					setAlive(ii,jj,(Math.random()<=p));
+			}
+		}
 	}
 	
 }

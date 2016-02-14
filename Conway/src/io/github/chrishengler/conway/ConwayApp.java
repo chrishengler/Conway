@@ -28,8 +28,9 @@ package io.github.chrishengler.conway;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
-import javax.swing.JSplitPane;
+import java.awt.Dimension;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
@@ -40,6 +41,11 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.JSlider;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 /**
  * @author chris
@@ -50,6 +56,7 @@ public class ConwayApp{
 	private JFrame m_frame;
 	private ConwayCanvas m_conwayCanvas;
 	private Game m_game;
+	private double m_fillFrac;
 	
 	/**
 	 * Launch the application.
@@ -113,10 +120,13 @@ public class ConwayApp{
 		});
 		m_frame.getContentPane().add(m_conwayCanvas, BorderLayout.CENTER);
 		
+		Dimension controlSize = new Dimension(100,300);
+		
 		JPanel panel = new JPanel();
 		m_frame.getContentPane().add(panel, BorderLayout.WEST);
 		
 		JButton btnNextStep = new JButton("Next Step");
+		btnNextStep.setPreferredSize(controlSize);
 		btnNextStep.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -124,7 +134,28 @@ public class ConwayApp{
 				m_conwayCanvas.repaint();
 			}
 		});
-		panel.add(btnNextStep);
+		
+		Box verticalBox = Box.createVerticalBox();
+		panel.add(verticalBox);
+		verticalBox.add(btnNextStep);
+		
+		JSlider fillFracSlider = new JSlider(0,100);
+		fillFracSlider.setPreferredSize(controlSize);
+		fillFracSlider.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e){
+				m_fillFrac = fillFracSlider.getValue()/100.;
+			}
+		});
+		verticalBox.add(fillFracSlider);
+		
+		JButton btnRandomFill = new JButton("Random Fill");
+		btnRandomFill.setPreferredSize(controlSize);
+		btnRandomFill.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				m_game.fillRandom(m_fillFrac);
+			}
+		});
+		verticalBox.add(btnRandomFill);
 		
 		Component verticalStrut = Box.createVerticalStrut(14);
 		m_frame.getContentPane().add(verticalStrut, BorderLayout.SOUTH);
