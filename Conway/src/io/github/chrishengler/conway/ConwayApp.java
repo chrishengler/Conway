@@ -86,6 +86,8 @@ public class ConwayApp{
 		JToolBar toolBar = new JToolBar();
 		m_frame.getContentPane().add(toolBar, BorderLayout.NORTH);
 
+		m_game = new Game();
+		
 		m_conwayCanvas = new ConwayCanvas(m_game);
 		m_conwayCanvas.addComponentListener(new ComponentAdapter() {
 			@Override
