@@ -30,6 +30,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.awt.Dimension;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
@@ -41,11 +42,14 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JSlider;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JTextPane;
+import javax.swing.text.*;
 
 /**
  * @author chris
@@ -120,10 +124,16 @@ public class ConwayApp{
 		});
 		m_frame.getContentPane().add(m_conwayCanvas, BorderLayout.CENTER);
 		
-		Dimension controlSize = new Dimension(100,300);
+		Dimension controlSize = new Dimension(100,50);
+		Dimension controlPanelMaximumSize = new Dimension(120,250);
 		
-		JPanel panel = new JPanel();
-		m_frame.getContentPane().add(panel, BorderLayout.WEST);
+		Box verticalBox = Box.createVerticalBox();
+		m_frame.getContentPane().add(verticalBox, BorderLayout.WEST);
+		
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new GridLayout(0,1));
+		controlPanel.setMaximumSize(controlPanelMaximumSize);
+		verticalBox.add(controlPanel);
 		
 		JButton btnNextStep = new JButton("Next Step");
 		btnNextStep.setPreferredSize(controlSize);
@@ -134,29 +144,32 @@ public class ConwayApp{
 				m_conwayCanvas.repaint();
 			}
 		});
+		controlPanel.add(btnNextStep);
 		
-		Box verticalBox = Box.createVerticalBox();
-		panel.add(verticalBox);
-		verticalBox.add(btnNextStep);
+		Box fillFracBox = Box.createVerticalBox();
+		controlPanel.add(fillFracBox);
 		
 		JSlider fillFracSlider = new JSlider(0,100);
+		fillFracSlider.setAlignmentX(0);
+		fillFracBox.add(fillFracSlider);
 		fillFracSlider.setPreferredSize(controlSize);
-		fillFracSlider.addChangeListener(new ChangeListener(){
-			public void stateChanged(ChangeEvent e){
-				m_fillFrac = fillFracSlider.getValue()/100.;
-			}
-		});
-		verticalBox.add(fillFracSlider);
 		
 		JButton btnRandomFill = new JButton("Random Fill");
+		btnRandomFill.setAlignmentX(0);
+		fillFracBox.add(btnRandomFill);
 		btnRandomFill.setPreferredSize(controlSize);
 		btnRandomFill.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				m_game.fillRandom(m_fillFrac);
 			}
 		});
-		verticalBox.add(btnRandomFill);
 		
+		fillFracSlider.addChangeListener(new ChangeListener(){
+			public void stateChanged(ChangeEvent e){
+				m_fillFrac = fillFracSlider.getValue()/100.;
+			}
+		});
+				
 		Component verticalStrut = Box.createVerticalStrut(14);
 		m_frame.getContentPane().add(verticalStrut, BorderLayout.SOUTH);
 		
