@@ -25,29 +25,28 @@
  */
 package io.github.chrishengler.conway;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JPanel;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
 import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JSlider;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * @author chris
@@ -58,7 +57,6 @@ public class ConwayApp{
 	private JFrame m_frame;
 	private ConwayCanvas m_conwayCanvas;
 	private Game m_game;
-	private boolean m_playing;
 	private Thread m_thread;
 	private double m_fillFrac;
 	private int m_steptime;
@@ -94,7 +92,6 @@ public class ConwayApp{
 	private void initialize(){
 		m_steptime = 500;
 		m_fillFrac = 0.5;
-		m_playing=false;
 		m_frame = new JFrame();
 		m_frame.setBounds(100,100,700,650);
 		m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -195,15 +192,11 @@ public class ConwayApp{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(tglbtnStartstop.isSelected()){
-					m_playing = true;
 					m_thread = new Thread(m_conwayCanvas);
 					m_thread.start();
 				}
 				else{
-					m_playing = false;
-					if(m_thread!=null){
-						m_thread.interrupt();
-					}
+					m_thread.interrupt();
 				}
 			}
 		});
