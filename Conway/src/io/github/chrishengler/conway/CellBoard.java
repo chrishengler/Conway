@@ -25,9 +25,8 @@
  */
 package io.github.chrishengler.conway;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.lang.Math;
+import java.util.List;
 
 
 /**
