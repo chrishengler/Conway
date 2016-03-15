@@ -45,14 +45,14 @@ public class Cell{
   /**
    * constructor with boolean to set cell alive/not alive
    * 
-   * @param alive cell is alive
+   * @param alive Cell is alive
    */
   public Cell(boolean alive){
     m_alive = alive;
   }
   
   /**
-   * set cell alive or not
+   * set Cell alive or not
    * 
    * @param alive 
    */
@@ -60,14 +60,18 @@ public class Cell{
     m_alive = alive;
   }
   
+  /**
+   * toggle alive status of Cell
+   * 
+   */
   public void toggle(){
   	m_alive = !m_alive;
   }
   
   /**
-   * check whether or not cell is alive
+   * check whether or not Cell is alive
    * 
-   * @return true if cell is alive
+   * @return true if Cell is alive
    */
   public boolean isAlive(){
     return m_alive;

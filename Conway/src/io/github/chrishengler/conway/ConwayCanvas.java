@@ -44,6 +44,9 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
   private int m_cellsize;
   private Game m_game;
   private int m_lastx, m_lasty;
+  /**
+   * used as trigger to stop running game in background thread
+   */
 	public boolean m_stop;
 	private int m_steptime;
 
@@ -58,10 +61,18 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
     initComponents();
   }
   
+  /**
+   * return Game m_game
+   * 
+   * @return m_game
+   */
   public Game getGame(){
   	return m_game;
   }
   
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Dimension getPreferredSize(){
     return new Dimension(600,600);
@@ -87,6 +98,9 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
   	repaint();
   }
   
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void paintComponent(Graphics g){
     super.paintComponent(g);
@@ -130,11 +144,17 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
     );
   }// </editor-fold>//GEN-END:initComponents
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mouseReleased(MouseEvent e){
 
 	}
 	
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mouseDragged(MouseEvent e){
 		if(!isLastCell(e)){
@@ -143,22 +163,37 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 		}
 	}
   
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mouseClicked(MouseEvent e){	
 	}
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mousePressed(MouseEvent e){	
 		toggleCell(e);
 		setLastCell(e);
 	}
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mouseEntered(MouseEvent e){ }
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mouseExited(MouseEvent e){ }
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void mouseMoved(MouseEvent e){	}
 
@@ -185,18 +220,30 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 	/* (non-Javadoc)
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
 	 */
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void componentResized(ComponentEvent e){
 		calcCellSize();
 		repaint();
 	}
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void componentMoved(ComponentEvent e){	}
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void componentShown(ComponentEvent e){	}
 
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void componentHidden(ComponentEvent e){	}
 
@@ -207,6 +254,9 @@ public class ConwayCanvas extends javax.swing.JPanel implements MouseListener, M
 	/* (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
+  /**
+   * {@inheritDoc}
+   */
 	@Override
 	public void run(){
 		m_stop = false;

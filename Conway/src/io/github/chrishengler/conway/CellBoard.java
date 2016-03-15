@@ -66,7 +66,9 @@ public class CellBoard {
 	 * if larger than existing board, new board will fill additional space with empty cells
 	 * if smaller, only the area within dimensions of new board is copied
 	 * if same dimensions, no effect
-	 * 
+	 *
+	 * @param x number of columns
+	 * @param y number of rows
 	 * @param c clone existing board
 	 */
 	public CellBoard(int x, int y, CellBoard c){

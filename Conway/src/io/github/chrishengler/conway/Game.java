@@ -117,6 +117,11 @@ public class Game{
 		m_board = getNextBoard();
 	}
 	
+	/**
+	 * return game's CellBoard (m_board)
+	 * 
+	 * @return CellBoard m_board
+	 */
 	public CellBoard getBoard(){
 		return m_board;
 	}
