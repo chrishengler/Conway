@@ -62,6 +62,7 @@ var NAVTREEINDEX0 =
 "classio_1_1github_1_1chrishengler_1_1conway_1_1_game.html#af99bec40d23e8207f974933989721740":[0,0,0,0,0,0,5,2],
 "functions.html":[0,3,0],
 "functions_func.html":[0,3,1],
+"functions_vars.html":[0,3,2],
 "hierarchy.html":[0,2],
 "index.html":[],
 "pages.html":[]

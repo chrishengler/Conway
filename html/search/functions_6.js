@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['resizeboard',['resizeBoard',['../classio_1_1github_1_1chrishengler_1_1conway_1_1_game.html#aa906c1d00d7dd8bf267ba10206d3465e',1,'io::github::chrishengler::conway::Game']]]
+  ['paintcomponent',['paintComponent',['../classio_1_1github_1_1chrishengler_1_1conway_1_1_conway_canvas.html#a4741c2dfc2913ba79e8e4218401a6c71',1,'io::github::chrishengler::conway::ConwayCanvas']]]
 ];
