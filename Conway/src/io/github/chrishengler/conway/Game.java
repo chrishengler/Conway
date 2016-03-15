@@ -67,12 +67,27 @@ public class Game{
 		m_board = new CellBoard(x,y,g.m_board);
 	}
 	
+	/**
+	 * resize board to have size (in cells) x,y
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void resizeBoard(int x, int y){
 		m_x = x;
 		m_y = y;
 		m_board = new CellBoard(x,y,m_board);
 	}
 	
+	/**
+	 * fill board randomly
+	 * 
+	 * Fill the board randomly. 
+	 * Each cell has probability p of being set to alive 
+	 * p is fractional probability, so should be in range 0 ≤ p ≤ 1
+	 * 
+	 * @param p fraction of board to fill
+	 */
 	public void fillRandom(double p){
 		m_board.fillRandom(p);
 	}
@@ -92,12 +107,13 @@ public class Game{
 				}
 			}
 		}
-		//not implemented yet
 		return newboard;
 	}
 
+	/**
+	 * update game status to next step
+	 */
 	public void nextStep(){
-		//not implemented yet
 		m_board = getNextBoard();
 	}
 	
@@ -105,22 +121,52 @@ public class Game{
 		return m_board;
 	}
 	
+	/**
+	 * calls CellBoard.setAlive(x,y,alive);
+	 * 
+	 * @param x
+	 * @param y
+	 * @param alive
+	 */
 	public void setAlive(int x, int y, boolean alive){
 		m_board.setAlive(x,y,alive);
 	}
 	
+	/**
+	 * calls CellBoard.toggleCell(x,y);
+	 * 
+	 * @param x
+	 * @param y
+	 */
 	public void toggleCell(int x, int y){
 		m_board.toggleCell(x,y);
 	}
 	
+	/**
+	 * calls CellBoard.isAlive(x,y);
+	 * 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public boolean isAlive(int x, int y){
 		return m_board.isAlive(x,y);
 	}
 	
+	/**
+	 * get number of columns in board
+	 * 
+	 * @return number of columns
+	 */
 	public int getX(){
 		return m_x;
 	}
 	
+	/**
+	 * get number of rows in board
+	 * 
+	 * @return number of rows
+	 */
 	public int getY(){
 		return m_y;
 	}

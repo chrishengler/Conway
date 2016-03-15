@@ -171,14 +171,32 @@ public class CellBoard {
 		setAlive(x,y,true);
 	}
 	
+	/**
+	 * toggle alive status of Cell x,y
+	 * @param x
+	 * @param y
+	 */
 	public void toggleCell(int x, int y){
 		getCell(x,y).toggle();
 	}
 	
+	/**
+	 * check if Cell x,y is alive
+	 * 
+	 * @param x
+	 * @param y
+	 * @return alive
+	 */
 	public boolean isAlive(int x, int y){
 		return getCell(x,y).isAlive();
 	}
 	
+	/**
+	 * get number of neighbours of Cell x,y which are alive
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public int getLiveNeighbours(int x,int y){
 		int count=0;
 		for(int ii=-1;ii<=1;++ii){
@@ -190,6 +208,15 @@ public class CellBoard {
 		return count;
 	}
 	
+	/**
+	 * fill board randomly
+	 * 
+	 * Fill the board randomly. 
+	 * Each cell has probability p of being set to alive 
+	 * p is fractional probability, so should be in range 0 ≤ p ≤ 1
+	 * 
+	 * @param p fraction of board to fill
+	 */
 	public void fillRandom(double p){
 		for(int ii=0;ii<m_x;++ii){
 			for(int jj=0;jj<m_y;++jj){
